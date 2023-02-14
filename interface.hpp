@@ -1,0 +1,46 @@
+#ifndef INTERFACE_H
+#define INTERFACE_H
+
+#include "graphics.h"
+#include <string>
+using namespace std;
+
+extern int isMouseClicked;
+extern int isMouseReleased;
+
+class TextView {//поля ввода
+   int posX, posY, sizeX, sizeY;//координаты и размеры поля ввода
+   bool isNumberDialed = false;//проверка на ввод числа
+   string number;//строка для хранения введённого числа
+   int length = 0;//длина строки
+   int result = 0;//результат ввода
+public:
+   //конструктор получает координаты углов и размеры поля
+   TextView(int posX, int posY, int sizeX, int sizeY) : posX(posX), posY(posY), sizeX(sizeX), sizeY(sizeY) {};
+   int isClick(int x, int y);// реакция на нажатие
+};
+
+class Button { //кнопка
+protected:
+   int posX, posY, sizeX, sizeY;//координаты и размеры кнопки
+public:
+   //конструктор получает координаты углов и размеры кнопки
+   Button(int posX, int posY, int sizeX, int sizeY) : posX(posX), posY(posY), sizeX(sizeX), sizeY(sizeY) {};
+   virtual bool isClick(int x, int y);// реакция на нажатие
+};
+
+class Checkbox : public Button//флажки
+{
+   IMAGE *checkbox = NULL;//изображение
+   char op;//операция
+   bool isShowImage = false;//проверка на отрисовку изображения
+public:
+   //конструктор получает координаты углов, размеры и знак операции
+   Checkbox(int posX, int posY, int sizeX, int sizeY, char op) : Button(posX, posY, sizeX, sizeY), op(op) {};
+   ~Checkbox();// деструктор
+   bool isClick(int x, int y);// реакция на нажатие
+   char getOperation();//запоминание выбранной операции
+   void loadImage();//загрузка изображения
+};
+
+#endif
